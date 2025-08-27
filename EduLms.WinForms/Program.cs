@@ -28,7 +28,11 @@ namespace EduLms.WinForms
                 })
                 .Build();
 
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
             ApplicationConfiguration.Initialize();
+
             var login = host.Services.GetRequiredService<LoginForm>();
             if (login.ShowDialog() == DialogResult.OK)
             {
