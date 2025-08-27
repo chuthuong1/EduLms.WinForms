@@ -28,9 +28,12 @@ namespace EduLms.WinForms
             lblMaxAttempts = new Label();
             numMaxAttempts = new NumericUpDown();
             chkShuffle = new CheckBox();
+            btnAddQuestion = new Button();
+            gridQuestions = new DataGridView();
             btnSave = new Button();
             ((System.ComponentModel.ISupportInitialize)numDuration).BeginInit();
             ((System.ComponentModel.ISupportInitialize)numMaxAttempts).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)gridQuestions).BeginInit();
             SuspendLayout();
             //
             // lblTitle
@@ -137,9 +140,27 @@ namespace EduLms.WinForms
             chkShuffle.Text = "Shuffle options";
             chkShuffle.UseVisualStyleBackColor = true;
             //
+            // btnAddQuestion
+            //
+            btnAddQuestion.Location = new Point(150, 290);
+            btnAddQuestion.Name = "btnAddQuestion";
+            btnAddQuestion.Size = new Size(120, 23);
+            btnAddQuestion.TabIndex = 8;
+            btnAddQuestion.Text = "Add Question";
+            btnAddQuestion.UseVisualStyleBackColor = true;
+            btnAddQuestion.Click += btnAddQuestion_Click;
+            //
+            // gridQuestions
+            //
+            gridQuestions.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            gridQuestions.Location = new Point(30, 330);
+            gridQuestions.Name = "gridQuestions";
+            gridQuestions.Size = new Size(540, 150);
+            gridQuestions.TabIndex = 9;
+            //
             // btnSave
             //
-            btnSave.Location = new Point(150, 290);
+            btnSave.Location = new Point(150, 500);
             btnSave.Name = "btnSave";
             btnSave.Size = new Size(75, 23);
             btnSave.Text = "Save";
@@ -150,8 +171,10 @@ namespace EduLms.WinForms
             //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(400, 330);
+            ClientSize = new Size(600, 540);
             Controls.Add(btnSave);
+            Controls.Add(gridQuestions);
+            Controls.Add(btnAddQuestion);
             Controls.Add(chkShuffle);
             Controls.Add(numMaxAttempts);
             Controls.Add(lblMaxAttempts);
@@ -170,6 +193,7 @@ namespace EduLms.WinForms
             Load += TeacherExamForm_Load;
             ((System.ComponentModel.ISupportInitialize)numDuration).EndInit();
             ((System.ComponentModel.ISupportInitialize)numMaxAttempts).EndInit();
+            ((System.ComponentModel.ISupportInitialize)gridQuestions).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -187,6 +211,8 @@ namespace EduLms.WinForms
         private Label lblMaxAttempts;
         private NumericUpDown numMaxAttempts;
         private CheckBox chkShuffle;
+        private Button btnAddQuestion;
+        private DataGridView gridQuestions;
         private Button btnSave;
     }
 }

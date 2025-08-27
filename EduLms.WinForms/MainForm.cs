@@ -2,15 +2,8 @@
 using EduLms.Data.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace EduLms.WinForms
 {
@@ -26,29 +19,25 @@ namespace EduLms.WinForms
 
         private async void MainForm_Load(object sender, EventArgs e)
         {
-            // ví dụ: nạp danh sách Users ra DataGridView
-            var users = await _db.Users.AsNoTracking().Take(100).ToListAsync();
-            dataGridView1.DataSource = users;
-        }
+            var classes = await _db.Classes.AsNoTracking().ToListAsync();
+            gridClasses.DataSource = classes;
 
-        private async void btnAdd_Click(object sender, EventArgs e)
-        {
-            var u = new User
-            {
-                FullName = txtName.Text,
-                Email = txtEmail.Text,
-                IsActive = true,
-                CreatedAt = DateTime.UtcNow
-            };
-            _db.Users.Add(u);
-            await _db.SaveChangesAsync();
-            MessageBox.Show("Saved!");
-        }
+            var subjects = await _db.Subjects.AsNoTracking().ToListAsync();
+            gridSubjects.DataSource = subjects;
 
-        private void btnQuestions_Click(object sender, EventArgs e)
-        {
-            using var frm = new TeacherQuestionForm(_db);
-            frm.ShowDialog();
+            var scores = await _db.ExamAttempts
+                .AsNoTracking()
+                .Include(a => a.Student)
+                .Include(a => a.Exam)
+                .Select(a => new
+                {
+                    a.AttemptId,
+                    Student = a.Student.FullName,
+                    Exam = a.Exam.Title,
+                    a.Score
+                })
+                .ToListAsync();
+            gridScores.DataSource = scores;
         }
 
         private void btnCreateExam_Click(object sender, EventArgs e)
