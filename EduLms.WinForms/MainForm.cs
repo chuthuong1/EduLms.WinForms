@@ -43,5 +43,11 @@ namespace EduLms.WinForms
             await _db.SaveChangesAsync();
             MessageBox.Show("Saved!");
         }
+
+        private void btnLogin_Click(object? sender, EventArgs e)
+        {
+            using var frm = new LoginForm(_db);
+            frm.ShowDialog();
+        }
     }
 }
