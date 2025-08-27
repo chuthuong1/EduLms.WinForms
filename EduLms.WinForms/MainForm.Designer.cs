@@ -31,6 +31,7 @@
             dataGridView1 = new DataGridView();
             txtEmail = new TextBox();
             txtName = new TextBox();
+            btnLogin = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -57,12 +58,23 @@
             txtName.Size = new Size(100, 23);
             txtName.TabIndex = 2;
             txtName.Text = "FullName";
-            // 
+            //
+            // btnLogin
+            //
+            btnLogin.Location = new Point(101, 100);
+            btnLogin.Name = "btnLogin";
+            btnLogin.Size = new Size(75, 23);
+            btnLogin.TabIndex = 3;
+            btnLogin.Text = "Login";
+            btnLogin.UseVisualStyleBackColor = true;
+            btnLogin.Click += btnLogin_Click;
+            //
             // MainForm
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(btnLogin);
             Controls.Add(txtName);
             Controls.Add(txtEmail);
             Controls.Add(dataGridView1);
@@ -78,5 +90,6 @@
         private DataGridView dataGridView1;
         private TextBox txtEmail;
         private TextBox txtName;
+        private Button btnLogin;
     }
 }
