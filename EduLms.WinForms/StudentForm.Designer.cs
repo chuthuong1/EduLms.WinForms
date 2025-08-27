@@ -23,33 +23,50 @@ namespace EduLms.WinForms
 
         private void InitializeComponent()
         {
-            lblWelcome = new Label();
+            dgvExams = new DataGridView();
+            btnStart = new Button();
             SuspendLayout();
-            // 
-            // lblWelcome
-            // 
-            lblWelcome.AutoSize = true;
-            lblWelcome.Location = new Point(12, 9);
-            lblWelcome.Name = "lblWelcome";
-            lblWelcome.Size = new Size(82, 15);
-            lblWelcome.TabIndex = 0;
-            lblWelcome.Text = "Student Form";
-            // 
+            //
+            // dgvExams
+            //
+            dgvExams.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvExams.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvExams.Location = new Point(12, 12);
+            dgvExams.MultiSelect = false;
+            dgvExams.Name = "dgvExams";
+            dgvExams.RowTemplate.Height = 25;
+            dgvExams.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvExams.Size = new Size(560, 300);
+            dgvExams.TabIndex = 0;
+            //
+            // btnStart
+            //
+            btnStart.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            btnStart.Location = new Point(497, 318);
+            btnStart.Name = "btnStart";
+            btnStart.Size = new Size(75, 23);
+            btnStart.TabIndex = 1;
+            btnStart.Text = "Start";
+            btnStart.UseVisualStyleBackColor = true;
+            btnStart.Click += btnStart_Click;
+            //
             // StudentForm
-            // 
+            //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(300, 150);
-            Controls.Add(lblWelcome);
+            ClientSize = new Size(584, 361);
+            Controls.Add(btnStart);
+            Controls.Add(dgvExams);
             Name = "StudentForm";
-            Text = "Student";
+            Text = "My Exams";
+            Load += StudentForm_Load;
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private Label lblWelcome;
+        private DataGridView dgvExams;
+        private Button btnStart;
     }
 }
 

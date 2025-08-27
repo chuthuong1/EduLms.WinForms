@@ -31,7 +31,8 @@
             dataGridView1 = new DataGridView();
             txtEmail = new TextBox();
             txtName = new TextBox();
-            btnLogin = new Button();
+            btnQuestions = new Button();
+            btnCreateExam = new Button();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -59,22 +60,33 @@
             txtName.TabIndex = 2;
             txtName.Text = "FullName";
             //
-            // btnLogin
+            // btnQuestions
             //
-            btnLogin.Location = new Point(101, 100);
-            btnLogin.Name = "btnLogin";
-            btnLogin.Size = new Size(75, 23);
-            btnLogin.TabIndex = 3;
-            btnLogin.Text = "Login";
-            btnLogin.UseVisualStyleBackColor = true;
-            btnLogin.Click += btnLogin_Click;
+            btnQuestions.Location = new Point(101, 100);
+            btnQuestions.Name = "btnQuestions";
+            btnQuestions.Size = new Size(100, 23);
+            btnQuestions.TabIndex = 3;
+            btnQuestions.Text = "Question Bank";
+            btnQuestions.UseVisualStyleBackColor = true;
+            btnQuestions.Click += btnQuestions_Click;
+            //
+            // btnCreateExam
+            //
+            btnCreateExam.Location = new Point(239, 100);
+            btnCreateExam.Name = "btnCreateExam";
+            btnCreateExam.Size = new Size(100, 23);
+            btnCreateExam.TabIndex = 4;
+            btnCreateExam.Text = "Create Exam";
+            btnCreateExam.UseVisualStyleBackColor = true;
+            btnCreateExam.Click += btnCreateExam_Click;
             //
             // MainForm
             //
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(btnLogin);
+            Controls.Add(btnCreateExam);
+            Controls.Add(btnQuestions);
             Controls.Add(txtName);
             Controls.Add(txtEmail);
             Controls.Add(dataGridView1);
@@ -90,6 +102,7 @@
         private DataGridView dataGridView1;
         private TextBox txtEmail;
         private TextBox txtName;
-        private Button btnLogin;
+        private Button btnQuestions;
+        private Button btnCreateExam;
     }
 }

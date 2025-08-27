@@ -40,11 +40,13 @@ namespace EduLms.WinForms
                 if (string.Equals(role, "Teacher", StringComparison.OrdinalIgnoreCase))
                 {
                     var main = services.GetRequiredService<MainForm>();
+                    main.LoggedInUser = login.LoggedInUser;
                     Application.Run(main);
                 }
                 else if (string.Equals(role, "Student", StringComparison.OrdinalIgnoreCase))
                 {
                     var student = services.GetRequiredService<StudentForm>();
+                    student.LoggedInUser = login.LoggedInUser;
                     Application.Run(student);
                 }
                 else

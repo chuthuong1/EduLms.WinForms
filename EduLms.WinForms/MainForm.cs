@@ -17,6 +17,7 @@ namespace EduLms.WinForms
     public partial class MainForm : Form
     {
         private readonly EduLmsContext _db;
+        public User? LoggedInUser { get; set; }
         public MainForm(EduLmsContext db)
         {
             InitializeComponent();
@@ -44,9 +45,20 @@ namespace EduLms.WinForms
             MessageBox.Show("Saved!");
         }
 
-        private void btnLogin_Click(object? sender, EventArgs e)
+        private void btnQuestions_Click(object sender, EventArgs e)
         {
-            using var frm = new LoginForm(_db);
+            using var frm = new TeacherQuestionForm(_db);
+            frm.ShowDialog();
+        }
+
+        private void btnCreateExam_Click(object sender, EventArgs e)
+        {
+            if (LoggedInUser == null)
+            {
+                MessageBox.Show("Missing teacher information.");
+                return;
+            }
+            using var frm = new TeacherExamForm(_db, LoggedInUser);
             frm.ShowDialog();
         }
     }
