@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Windows.Forms;
 namespace EduLms.WinForms
 {
     internal static class Program
@@ -22,13 +23,21 @@ namespace EduLms.WinForms
                     services.AddDbContext<EduLmsContext>(opt =>
                         opt.UseSqlServer(cs));
                     // Đăng ký Form dùng DI
+                    services.AddTransient<LoginForm>();
                     services.AddTransient<MainForm>();
                 })
                 .Build();
 
+            using var scope = host.Services.CreateScope();
+            var services = scope.ServiceProvider;
+
             ApplicationConfiguration.Initialize();
-            var main = host.Services.GetRequiredService<MainForm>();
-            Application.Run(main);
+            var login = services.GetRequiredService<LoginForm>();
+            if (login.ShowDialog() == DialogResult.OK)
+            {
+                var main = services.GetRequiredService<MainForm>();
+                Application.Run(main);
+            }
         }
     }
 }
