@@ -49,6 +49,7 @@ namespace EduLms.WinForms
             var exam = new Exam
             {
                 Title = txtTitle.Text.Trim(),
+                ExamCode = Guid.NewGuid().ToString("N").Substring(0, 6).ToUpper(),
                 SubjectId = subject.SubjectId,
                 DurationMinutes = (int)numDuration.Value,
                 StartAt = dtStart.Checked ? dtStart.Value : null,
@@ -82,7 +83,7 @@ namespace EduLms.WinForms
             }
             await _db.SaveChangesAsync();
 
-            MessageBox.Show("Exam saved!");
+            MessageBox.Show($"Exam saved! Code: {exam.ExamCode}");
         }
 
         private void btnAddQuestion_Click(object sender, EventArgs e)

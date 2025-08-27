@@ -48,13 +48,21 @@ namespace EduLms.WinForms
 
             var examId = (int)dgvExams.CurrentRow.Cells["ExamId"].Value;
 
-            var input = Interaction.InputBox("Enter paper code", "Start Exam", "");
-            if (string.IsNullOrWhiteSpace(input)) return;
+            var code = Interaction.InputBox("Enter exam code", "Start Exam", "");
+            if (string.IsNullOrWhiteSpace(code)) return;
 
-            var paper = _db.ExamPapers.FirstOrDefault(p => p.ExamId == examId && p.PaperCode == input);
+            var exam = _db.Exams.Include(e => e.ExamPapers)
+                .FirstOrDefault(e => e.ExamId == examId && e.ExamCode == code);
+            if (exam == null)
+            {
+                MessageBox.Show("Invalid exam code");
+                return;
+            }
+
+            var paper = exam.ExamPapers.FirstOrDefault(p => p.IsActive);
             if (paper == null)
             {
-                MessageBox.Show("Invalid paper code");
+                MessageBox.Show("No active paper for this exam");
                 return;
             }
 

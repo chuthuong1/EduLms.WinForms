@@ -73,6 +73,8 @@ public partial class EduLmsContext : DbContext
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("(sysutcdatetime())");
             entity.Property(e => e.MaxAttempts).HasDefaultValue(1);
             entity.Property(e => e.ShuffleOptions).HasDefaultValue(true);
+            entity.Property(e => e.ExamCode).HasMaxLength(20);
+            entity.HasIndex(e => e.ExamCode).IsUnique().HasDatabaseName("IX_Exams_ExamCode");
 
             entity.HasOne(d => d.CreatedByTeacher).WithMany(p => p.Exams)
                 .OnDelete(DeleteBehavior.ClientSetNull)
