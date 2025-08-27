@@ -8,6 +8,7 @@ namespace EduLms.Data.Data.Models;
 
 [Index("SubjectId", Name = "IX_Exams_SubjectId")]
 [Index("StartAt", "EndAt", Name = "IX_Exams_Time")]
+[Index("ExamCode", Name = "IX_Exams_ExamCode", IsUnique = true)]
 public partial class Exam
 {
     [Key]
@@ -15,6 +16,9 @@ public partial class Exam
 
     [StringLength(200)]
     public string Title { get; set; } = null!;
+
+    [StringLength(20)]
+    public string ExamCode { get; set; } = null!;
 
     public int SubjectId { get; set; }
 
