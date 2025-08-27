@@ -10,6 +10,8 @@ namespace EduLms.WinForms
     public partial class TeacherQuestionForm : Form
     {
         private readonly EduLmsContext _db;
+        private string? _imagePath;
+        public Question? CreatedQuestion { get; private set; }
         public TeacherQuestionForm(EduLmsContext db)
         {
             InitializeComponent();
@@ -22,6 +24,8 @@ namespace EduLms.WinForms
             cmbSubjects.DataSource = subjects;
             cmbSubjects.DisplayMember = nameof(Subject.SubjectName);
             cmbSubjects.ValueMember = nameof(Subject.SubjectId);
+            cmbType.Items.AddRange(new[] { "Single Choice", "Multiple Choice", "Essay" });
+            cmbType.SelectedIndex = 0;
         }
 
         private async void btnSave_Click(object sender, EventArgs e)
@@ -31,37 +35,48 @@ namespace EduLms.WinForms
                 MessageBox.Show("Please select a subject.");
                 return;
             }
-            if (string.IsNullOrWhiteSpace(txtQuestion.Text))
+            if (string.IsNullOrWhiteSpace(txtQuestion.Text) && string.IsNullOrEmpty(_imagePath))
             {
-                MessageBox.Show("Question text is required.");
+                MessageBox.Show("Question text or image is required.");
                 return;
             }
 
+            var type = cmbType.SelectedItem?.ToString();
             var options = new List<Option>();
-            foreach (DataGridViewRow row in gridOptions.Rows)
+            if (type != "Essay")
             {
-                if (row.IsNewRow) continue;
-                var content = row.Cells["colContent"].Value?.ToString();
-                var isCorrectObj = row.Cells["colIsCorrect"].Value;
-                var isCorrect = isCorrectObj != null && (bool)isCorrectObj;
-                if (string.IsNullOrWhiteSpace(content))
+                foreach (DataGridViewRow row in gridOptions.Rows)
                 {
-                    MessageBox.Show("All option texts are required.");
+                    if (row.IsNewRow) continue;
+                    var content = row.Cells["colContent"].Value?.ToString();
+                    var isCorrectObj = row.Cells["colIsCorrect"].Value;
+                    var isCorrect = isCorrectObj != null && (bool)isCorrectObj;
+                    if (string.IsNullOrWhiteSpace(content))
+                    {
+                        MessageBox.Show("All option texts are required.");
+                        return;
+                    }
+                    options.Add(new Option { Content = content, IsCorrect = isCorrect });
+                }
+
+                var correctCount = options.Count(o => o.IsCorrect);
+                if (type == "Single Choice" && correctCount != 1)
+                {
+                    MessageBox.Show("Single choice requires exactly one correct option.");
                     return;
                 }
-                options.Add(new Option { Content = content, IsCorrect = isCorrect });
+                if (type == "Multiple Choice" && correctCount == 0)
+                {
+                    MessageBox.Show("Multiple choice requires at least one correct option.");
+                    return;
+                }
             }
 
-            if (!options.Any(o => o.IsCorrect))
-            {
-                MessageBox.Show("At least one option must be marked correct.");
-                return;
-            }
-
+            var content = string.IsNullOrWhiteSpace(txtQuestion.Text) ? "[Image]" : txtQuestion.Text.Trim();
             var question = new Question
             {
                 SubjectId = subject.SubjectId,
-                Content = txtQuestion.Text.Trim(),
+                Content = content,
                 Difficulty = (byte)numDifficulty.Value,
                 CreatedAt = DateTime.UtcNow
             };
@@ -71,7 +86,24 @@ namespace EduLms.WinForms
             }
             _db.Questions.Add(question);
             await _db.SaveChangesAsync();
-            MessageBox.Show("Saved!");
+            CreatedQuestion = question;
+            DialogResult = DialogResult.OK;
+            Close();
+        }
+
+        private void cmbType_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            gridOptions.Visible = cmbType.SelectedItem?.ToString() != "Essay";
+        }
+
+        private void btnImage_Click(object sender, EventArgs e)
+        {
+            using var dlg = new OpenFileDialog();
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                _imagePath = dlg.FileName;
+                picQuestion.ImageLocation = _imagePath;
+            }
         }
     }
 }
