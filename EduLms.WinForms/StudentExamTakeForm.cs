@@ -1,6 +1,7 @@
 using EduLms.Data.Data.Models;
 using System;
 using System.Windows.Forms;
+using Timer = System.Windows.Forms.Timer;
 
 namespace EduLms.WinForms
 {
