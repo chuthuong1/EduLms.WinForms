@@ -36,6 +36,7 @@ namespace EduLms.WinForms
             if (login.ShowDialog() == DialogResult.OK)
             {
                 var main = services.GetRequiredService<MainForm>();
+
                 Application.Run(main);
             }
         }
