@@ -25,6 +25,7 @@ namespace EduLms.WinForms
                     // Đăng ký Form dùng DI
                     services.AddTransient<LoginForm>();
                     services.AddTransient<MainForm>();
+                    services.AddTransient<StudentForm>();
                 })
                 .Build();
 
@@ -33,11 +34,23 @@ namespace EduLms.WinForms
 
             ApplicationConfiguration.Initialize();
             var login = services.GetRequiredService<LoginForm>();
-            if (login.ShowDialog() == DialogResult.OK)
+            if (login.ShowDialog() == DialogResult.OK && login.LoggedInUser != null)
             {
-                var main = services.GetRequiredService<MainForm>();
-
-                Application.Run(main);
+                var role = login.LoggedInUser.Role;
+                if (string.Equals(role, "Teacher", StringComparison.OrdinalIgnoreCase))
+                {
+                    var main = services.GetRequiredService<MainForm>();
+                    Application.Run(main);
+                }
+                else if (string.Equals(role, "Student", StringComparison.OrdinalIgnoreCase))
+                {
+                    var student = services.GetRequiredService<StudentForm>();
+                    Application.Run(student);
+                }
+                else
+                {
+                    MessageBox.Show($"Role '{role}' is not supported.");
+                }
             }
         }
     }

@@ -9,6 +9,7 @@ namespace EduLms.WinForms
     public partial class LoginForm : Form
     {
         private readonly EduLmsContext _db;
+        public User? LoggedInUser { get; private set; }
         public LoginForm(EduLmsContext db)
         {
             InitializeComponent();
@@ -30,6 +31,7 @@ namespace EduLms.WinForms
                 MessageBox.Show("Invalid credentials.");
                 return;
             }
+            LoggedInUser = user;
             MessageBox.Show("Login successful!");
             DialogResult = DialogResult.OK;
         }
