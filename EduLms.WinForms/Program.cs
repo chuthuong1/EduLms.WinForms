@@ -32,10 +32,11 @@ namespace EduLms.WinForms
             var services = scope.ServiceProvider;
 
             ApplicationConfiguration.Initialize();
-            var login = services.GetRequiredService<LoginForm>();
+
+            var login = host.Services.GetRequiredService<LoginForm>();
             if (login.ShowDialog() == DialogResult.OK)
             {
-                var main = services.GetRequiredService<MainForm>();
+                var main = host.Services.GetRequiredService<MainForm>();
                 Application.Run(main);
             }
         }
